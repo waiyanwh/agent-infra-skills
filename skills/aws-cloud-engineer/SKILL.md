@@ -33,10 +33,10 @@ Use this skill for:
 ## Mandatory behavior
 
 Follow:
-- global AGENTS.md
-- Karpathy Guidelines
+- global agent instructions
 - shared safety rules
-- repo-specific AGENTS.md
+- adapter-specific instructions
+- repo-specific instruction files
 
 Use simple, surgical recommendations.
 State assumptions.

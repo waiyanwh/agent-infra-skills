@@ -14,7 +14,7 @@ Use this skill when a request involves infrastructure, DevOps, SRE, AWS cloud, K
 - Choose the highest-risk owner as primary when several domains apply.
 - Do not perform specialist work inside the router unless the user only asked for routing.
 - If switching primary skills mid-task, produce a handoff packet before continuing.
-- Preserve system, developer, direct user, and repo `AGENTS.md` instructions.
+- Preserve system, developer, direct user, adapter, and repo-specific instruction files.
 
 ## Shared Safety Rules
 

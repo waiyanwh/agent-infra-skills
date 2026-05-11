@@ -58,6 +58,18 @@ adapters/
   other-agent/
 ```
 
+## Other Agent Runtimes
+
+These skills are not tied to Codex. Other agent systems can consume the same `skills/*/SKILL.md` content by adding an adapter that maps the shared skill files into that runtime's native configuration.
+
+Examples:
+
+- Claude Code: generate `CLAUDE.md` plus native agent prompts from `skills/*/SKILL.md`.
+- opencode: generate opencode agent definitions from `skills/*/SKILL.md`.
+- Other coding agents: import the relevant skill Markdown as role, workflow, and safety instructions.
+
+Keep runtime-specific naming, install paths, and config syntax inside `adapters/<runtime>/`. Keep `skills/` portable.
+
 ## Codex macOS Setup
 
 ```bash

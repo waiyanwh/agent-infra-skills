@@ -25,7 +25,7 @@ Use this skill for Terraform, OpenTofu, Terragrunt, modules, providers, state, b
 ## Workflow
 
 1. Identify toolchain: Terraform, OpenTofu, Terragrunt, versions, backend, workspace, environment, and affected paths.
-2. Inspect module structure, provider constraints, backend config, variables, outputs, lock files, and repo `AGENTS.md` before editing.
+2. Inspect module structure, provider constraints, backend config, variables, outputs, lock files, and repo-specific instruction files before editing.
 3. Prefer minimal HCL changes that preserve state addresses unless the user requested refactoring.
 4. For refactors, use `moved` blocks when possible and explain state impact.
 5. Validate formatting and static checks before planning.
