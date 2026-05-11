@@ -13,6 +13,8 @@ skills/
     SKILL.md
   devops-sre-infra-troubleshooter/
     SKILL.md
+  aws-cloud-engineer/
+    SKILL.md
   helm-chart-engineer/
     SKILL.md
   terraform-terragrunt-engineer/
@@ -68,6 +70,7 @@ CODEX_HOME="$HOME/.codex" ./scripts/install.sh
 - Replaces only these managed skill directories:
   - `infra-agent-router`
   - `devops-sre-infra-troubleshooter`
+  - `aws-cloud-engineer`
   - `helm-chart-engineer`
   - `terraform-terragrunt-engineer`
   - `github-actions-engineer`
@@ -108,9 +111,44 @@ Use a skill by naming it in the prompt:
 ```text
 Use infra-agent-router for this request.
 Use devops-sre-infra-troubleshooter to debug this outage.
+Use aws-cloud-engineer to debug this AWS issue.
 Use helm-chart-engineer to review this chart.
 Use terraform-terragrunt-engineer to review this plan.
 Use github-actions-engineer to fix this workflow.
 ```
 
 If your Codex build supports `$skill` syntax, the same names can be invoked with `$infra-agent-router`, `$helm-chart-engineer`, and so on.
+
+## AWS Skill Examples
+
+Use the AWS skill directly:
+
+```text
+Use skill: aws-cloud-engineer
+
+Task:
+Debug why ALB targets are unhealthy.
+```
+
+Use AWS as reviewer:
+
+```text
+Use primary skill: terraform-terragrunt-engineer
+Use reviewer skill: aws-cloud-engineer
+
+Task:
+Review AWS IAM and networking changes in this Terraform plan.
+```
+
+Use the router:
+
+```text
+Use skill: infra-agent-router
+
+Task:
+EKS pods cannot connect to RDS.
+```
+
+## AWS MCP Behavior
+
+For AWS troubleshooting, Codex should use available AWS/cloud MCP tools when useful for live context, prefer read-only MCP or CLI inspection first, and never assume AWS MCP access exists. It should ask before AWS write actions, production-impacting changes, IAM, DNS, route table, security group, restart, scale, deploy, or state-changing actions. It must never print AWS credentials or secrets, and should redact sensitive AWS identifiers where appropriate.

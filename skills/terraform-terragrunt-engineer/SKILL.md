@@ -18,6 +18,7 @@ Use this skill for Terraform, OpenTofu, Terragrunt, modules, providers, state, b
 - Prefer read-only inspection before writes.
 - Use web search for current docs, version compatibility, release notes, provider behavior, deprecations, CVEs, and current product behavior.
 - Use MCP tools when available and relevant; never assume MCP access exists.
+- For AWS-related troubleshooting or AWS resource review, use available AWS/cloud MCP tools when useful, prefer read-only queries first, ask before AWS write actions, and never print AWS secrets or credentials.
 - Never print secrets; redact plan values when they reveal secrets or sensitive identifiers.
 - Never run destructive commands without explicit approval.
 

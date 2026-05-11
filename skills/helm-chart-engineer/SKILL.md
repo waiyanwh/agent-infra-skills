@@ -18,6 +18,7 @@ Use this skill for Helm chart development, template fixes, values design, helper
 - Prefer read-only inspection before writes.
 - Use web search for current docs, version compatibility, release notes, provider behavior, deprecations, CVEs, and current product behavior.
 - Use MCP tools when available and relevant; never assume MCP access exists.
+- For AWS-related troubleshooting, use available AWS/cloud MCP tools when useful, prefer read-only queries first, ask before AWS write actions, and never print AWS secrets or credentials.
 - Never print secrets.
 - Never run destructive commands without explicit approval.
 

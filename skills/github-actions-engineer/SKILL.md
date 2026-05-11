@@ -18,6 +18,7 @@ Use this skill for GitHub Actions workflow YAML, runners, reusable workflows, co
 - Prefer read-only inspection before writes.
 - Use web search for current docs, version compatibility, release notes, provider behavior, deprecations, CVEs, and current product behavior.
 - Use MCP tools when available and relevant; never assume MCP access exists.
+- For AWS OIDC, deployment, or troubleshooting work, use available AWS/cloud MCP tools when useful, prefer read-only queries first, ask before AWS write actions, and never print AWS secrets or credentials.
 - Never print secrets.
 - Never run destructive commands without explicit approval.
 

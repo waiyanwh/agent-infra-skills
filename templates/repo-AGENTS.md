@@ -18,6 +18,7 @@ Keep this file repo-specific. Do not paste global skill prompts here.
 - Terraform paths: `<paths or none>`
 - Helm chart paths: `<paths or none>`
 - GitHub Actions notes: `<workflow paths, reusable workflows, runner notes>`
+- AWS notes: `<accounts/profiles/regions/resources or none; avoid hard-coded sensitive IDs unless already present and relevant>`
 
 ## Production Safety Notes
 
@@ -27,3 +28,35 @@ Keep this file repo-specific. Do not paste global skill prompts here.
 - Sensitive areas: `<state, IAM, networking, DNS, secrets, data stores, etc.>`
 
 Do not commit secrets, kubeconfigs, private keys, tokens, account IDs, or long-lived credentials.
+
+## Skill Examples
+
+Use AWS skill directly:
+
+```text
+Use skill: aws-cloud-engineer
+
+Task:
+Debug why ALB targets are unhealthy.
+```
+
+Use AWS as reviewer:
+
+```text
+Use primary skill: terraform-terragrunt-engineer
+Use reviewer skill: aws-cloud-engineer
+
+Task:
+Review AWS IAM and networking changes in this Terraform plan.
+```
+
+Use router:
+
+```text
+Use skill: infra-agent-router
+
+Task:
+EKS pods cannot connect to RDS.
+```
+
+For AWS-related troubleshooting, use available MCP tools when useful, never assume AWS MCP access exists, prefer read-only MCP or CLI inspection first, ask before write actions, and never print AWS credentials or secrets.

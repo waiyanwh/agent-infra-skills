@@ -72,19 +72,61 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Use local repository inspection when file context matters.
 - Use web search for current product behavior, versions, provider arguments, release notes, deprecations, CVEs, pricing, or documentation that may have changed. Prefer official documentation and upstream repositories.
 - Use MCP tools when available and relevant for live repository, cluster, cloud, CI, monitoring, or log context. Never assume MCP access exists. Prefer read-only MCP calls first.
+- For AWS, use available AWS/cloud MCP tools for live AWS troubleshooting when useful. Prefer read-only queries first. Check account, region, service, resource identity, recent events, logs, metrics, IAM, networking, and quotas. Ask before any write, mutation, restart, scale, deploy, DNS, IAM, route table, security group, or state-changing action. Redact sensitive AWS identifiers where appropriate. Never print secrets or credentials.
 - Ask for confirmation before write operations through MCP tools or shell commands when safety, correctness, production impact, cost, security, or state could be affected.
 - Do not run destructive commands without explicit user approval. Risky actions include `terraform apply`, `terraform destroy`, `terragrunt apply`, `terragrunt destroy`, production `kubectl apply/delete`, production `helm upgrade/install/uninstall`, `git push`, secret rotation, IAM/networking changes, DNS changes, production scaling/restarts, state changes, and deleting files.
 - Never print secrets or ask for long-lived secrets. Redact tokens, kubeconfigs, private keys, passwords, sensitive environment variables, and identifiers when appropriate.
+- Do not hard-code account IDs, role names, regions, VPC IDs, subnet IDs, cluster names, or ARNs unless already present in the repo and relevant.
 - For production or deployment changes, include validation and rollback guidance.
+
+## AWS Troubleshooting
+
+For AWS-related troubleshooting tasks:
+
+- Prefer the `aws-cloud-engineer` skill.
+- Use available MCP tools when useful for live AWS context.
+- Prefer read-only MCP or CLI inspection first.
+- Never assume AWS MCP access exists.
+- Ask what MCP tools are available if unclear.
+- Ask before write actions.
+- Never print AWS credentials or secrets.
+- Never run production-impacting AWS changes without explicit approval.
+
+Examples of AWS-related tasks:
+
+- IAM AccessDenied.
+- EKS infrastructure problems.
+- ALB/NLB target health.
+- Route53/DNS.
+- ACM/TLS.
+- VPC routing.
+- Security groups/NACLs.
+- RDS connectivity.
+- CloudWatch/CloudTrail investigation.
+- S3 policy/access.
+- Lambda failures.
+- ECS task failures.
+- AWS OIDC from GitHub Actions.
+- Terraform changes to AWS resources.
 
 ## Skill Routing
 
-For infrastructure, DevOps, SRE, Helm, Terraform/Terragrunt, and GitHub Actions requests, use `infra-agent-router` first unless the user explicitly names a specialist skill.
+For infrastructure, DevOps, SRE, AWS, Helm, Terraform/Terragrunt, and GitHub Actions requests, use `infra-agent-router` first unless the user explicitly names a specialist skill.
 
 - Incidents, logs, Kubernetes runtime issues, Linux, networking, DNS, TLS, ingress, cloud symptoms, observability, SRE -> `devops-sre-infra-troubleshooter`.
+- AWS service troubleshooting, IAM, VPC/networking, EKS infrastructure, ECS, RDS/Aurora, Lambda, S3, Route53, ACM/TLS, ALB/NLB/ELB, CloudWatch, CloudTrail, AWS cost/quota/throttling, AWS CLI/API errors -> `aws-cloud-engineer`.
 - Helm templates, charts, `values.yaml`, `Chart.yaml`, `_helpers.tpl`, `helm lint/template/upgrade` -> `helm-chart-engineer`.
 - Terraform, OpenTofu, Terragrunt, providers, modules, state, backends, imports, plans, drift -> `terraform-terragrunt-engineer`.
 - GitHub Actions workflows, runners, matrix, cache, artifacts, OIDC, permissions, environments -> `github-actions-engineer`.
+
+Valid global skills:
+
+- `infra-agent-router`
+- `devops-sre-infra-troubleshooter`
+- `aws-cloud-engineer`
+- `helm-chart-engineer`
+- `terraform-terragrunt-engineer`
+- `github-actions-engineer`
 
 Use one primary specialist skill. For cross-domain work, choose the highest-risk owner as primary and mention reviewer skills. If switching skills, provide a handoff packet.
 

@@ -20,6 +20,7 @@ echo "Skills:"
 for skill in \
   infra-agent-router \
   devops-sre-infra-troubleshooter \
+  aws-cloud-engineer \
   helm-chart-engineer \
   terraform-terragrunt-engineer \
   github-actions-engineer
