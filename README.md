@@ -70,20 +70,48 @@ Examples:
 
 Keep runtime-specific naming, install paths, and config syntax inside `adapters/<runtime>/`. Keep `skills/` portable.
 
-## Codex macOS Setup
+## Codex Global Install
+
+Use global install when you want these skills available in every Codex session on that machine.
 
 ```bash
 git clone <repo-url> ~/agent-infra-skills
 cd ~/agent-infra-skills
-./adapters/codex/scripts/install.sh
-./adapters/codex/scripts/doctor.sh
+./adapters/codex/scripts/install.sh --global
+./adapters/codex/scripts/doctor.sh --global
 ```
 
 Use a custom Codex home if needed:
 
 ```bash
-CODEX_HOME="$HOME/.codex" ./adapters/codex/scripts/install.sh
+./adapters/codex/scripts/install.sh --codex-home "$HOME/.codex"
+./adapters/codex/scripts/doctor.sh --codex-home "$HOME/.codex"
 ```
+
+## Codex Local Project Install
+
+Use local install when you only want these skills available for a specific project or workspace.
+
+```bash
+cd ~/agent-infra-skills
+./adapters/codex/scripts/install.sh --local /path/to/project
+./adapters/codex/scripts/doctor.sh --local /path/to/project
+```
+
+This writes the adapter files to:
+
+```text
+/path/to/project/.codex/
+```
+
+Then launch or run Codex for that project with that local Codex home:
+
+```bash
+cd /path/to/project
+CODEX_HOME="$PWD/.codex" codex
+```
+
+If your Codex launcher or environment already supports project-local `.codex` discovery, use that. Otherwise, set `CODEX_HOME` explicitly as shown above.
 
 ## Codex Windows WSL Setup
 
@@ -92,20 +120,26 @@ Run these commands inside WSL, not PowerShell:
 ```bash
 git clone <repo-url> ~/agent-infra-skills
 cd ~/agent-infra-skills
-./adapters/codex/scripts/install.sh
-./adapters/codex/scripts/doctor.sh
+./adapters/codex/scripts/install.sh --global
+./adapters/codex/scripts/doctor.sh --global
 ```
 
-Use a custom Codex home inside WSL if needed:
+For project-local WSL usage:
 
 ```bash
-CODEX_HOME="$HOME/.codex" ./adapters/codex/scripts/install.sh
+cd ~/agent-infra-skills
+./adapters/codex/scripts/install.sh --local ~/work/news-project
+./adapters/codex/scripts/doctor.sh --local ~/work/news-project
+
+cd ~/work/news-project
+CODEX_HOME="$PWD/.codex" codex
 ```
 
 ## What The Codex Install Does
 
-- Copies `adapters/codex/AGENTS.md` to `$CODEX_HOME/AGENTS.md`.
-- Copies each managed skill directory from `skills/` to `$CODEX_HOME/skills/<skill-name>`.
+- Global install copies `adapters/codex/AGENTS.md` to `$CODEX_HOME/AGENTS.md`, defaulting to `~/.codex/AGENTS.md`.
+- Local install copies `adapters/codex/AGENTS.md` to `<project>/.codex/AGENTS.md`.
+- Copies each managed skill directory from `skills/` to the chosen Codex home at `skills/<skill-name>`.
 - Replaces only these managed skill directories:
   - `infra-agent-router`
   - `devops-sre-infra-troubleshooter`
@@ -133,11 +167,19 @@ On another machine:
 
 ```bash
 cd ~/agent-infra-skills
-./adapters/codex/scripts/update.sh
-./adapters/codex/scripts/doctor.sh
+./adapters/codex/scripts/update.sh --global
+./adapters/codex/scripts/doctor.sh --global
 ```
 
-`update.sh` runs `git pull --ff-only` and then the Codex adapter installer.
+For a local project install:
+
+```bash
+cd ~/agent-infra-skills
+./adapters/codex/scripts/update.sh --local /path/to/project
+./adapters/codex/scripts/doctor.sh --local /path/to/project
+```
+
+`update.sh` runs `git pull --ff-only` and then the Codex adapter installer with the same install arguments.
 
 ## Codex Per-Repo Instructions
 

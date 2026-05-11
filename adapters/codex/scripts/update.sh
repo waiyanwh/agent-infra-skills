@@ -15,4 +15,4 @@ echo "Pulling latest config..."
 git pull --ff-only
 
 echo "Installing..."
-"$CODEX_ADAPTER_ROOT/scripts/install.sh"
+"$CODEX_ADAPTER_ROOT/scripts/install.sh" "$@"
