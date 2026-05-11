@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CODEX_ADAPTER_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd "$CODEX_ADAPTER_ROOT/../.." && pwd)"
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 
-SRC_AGENTS="$REPO_ROOT/AGENTS.md"
+SRC_AGENTS="$CODEX_ADAPTER_ROOT/AGENTS.md"
 SRC_SKILLS="$REPO_ROOT/skills"
 DEST_SKILLS="$CODEX_HOME/skills"
 MANAGED_SKILLS=(
