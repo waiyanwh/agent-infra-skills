@@ -90,7 +90,8 @@ for skill in \
   aws-cloud-engineer \
   helm-chart-engineer \
   terraform-terragrunt-engineer \
-  github-actions-engineer
+  github-actions-engineer \
+  security-engineer
 do
   if [ -f "$CODEX_HOME/skills/$skill/SKILL.md" ]; then
     echo "OK: $skill"

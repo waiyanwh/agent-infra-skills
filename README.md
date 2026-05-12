@@ -1,6 +1,6 @@
-# Agent Infra Skills
+# Agent Infra and Security Skills
 
-Reusable infrastructure, cloud, SRE, and delivery skills for AI coding agents.
+Reusable infrastructure, cloud, SRE, delivery, and authorized security-engineering skills for AI coding agents.
 
 The skill content in `skills/` is intentionally agent-agnostic Markdown. Adapter-specific files live under `adapters/`; today this repo includes a Codex adapter that installs the skills into `CODEX_HOME`.
 
@@ -22,6 +22,8 @@ skills/
     SKILL.md
   github-actions-engineer/
     SKILL.md
+  security-engineer/
+    SKILL.md
 adapters/
   codex/
     AGENTS.md
@@ -41,6 +43,7 @@ adapters/
 - `helm-chart-engineer`
 - `terraform-terragrunt-engineer`
 - `github-actions-engineer`
+- `security-engineer`
 
 ## Adapter Model
 
@@ -147,6 +150,7 @@ CODEX_HOME="$PWD/.codex" codex
   - `helm-chart-engineer`
   - `terraform-terragrunt-engineer`
   - `github-actions-engineer`
+  - `security-engineer`
 - Does not symlink skills.
 - Does not delete unmanaged skills.
 

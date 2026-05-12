@@ -77,6 +77,7 @@ MANAGED_SKILLS=(
   "helm-chart-engineer"
   "terraform-terragrunt-engineer"
   "github-actions-engineer"
+  "security-engineer"
 )
 
 echo "Repo root:   $REPO_ROOT"

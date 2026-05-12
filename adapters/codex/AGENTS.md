@@ -111,13 +111,14 @@ Examples of AWS-related tasks:
 
 ## Skill Routing
 
-For infrastructure, DevOps, SRE, AWS, Helm, Terraform/Terragrunt, and GitHub Actions requests, use `infra-agent-router` first unless the user explicitly names a specialist skill.
+For infrastructure, DevOps, SRE, AWS, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests, use `infra-agent-router` first unless the user explicitly names a specialist skill.
 
 - Incidents, logs, Kubernetes runtime issues, Linux, networking, DNS, TLS, ingress, cloud symptoms, observability, SRE -> `devops-sre-infra-troubleshooter`.
 - AWS service troubleshooting, IAM, VPC/networking, EKS infrastructure, ECS, RDS/Aurora, Lambda, S3, Route53, ACM/TLS, ALB/NLB/ELB, CloudWatch, CloudTrail, AWS cost/quota/throttling, AWS CLI/API errors -> `aws-cloud-engineer`.
 - Helm templates, charts, `values.yaml`, `Chart.yaml`, `_helpers.tpl`, `helm lint/template/upgrade` -> `helm-chart-engineer`.
 - Terraform, OpenTofu, Terragrunt, providers, modules, state, backends, imports, plans, drift -> `terraform-terragrunt-engineer`.
 - GitHub Actions workflows, runners, matrix, cache, artifacts, OIDC, permissions, environments -> `github-actions-engineer`.
+- Authorized bug bounty or open-source vulnerability triage, root cause analysis, deterministic validation, remediation patches, adversarial review, reports, and security PR descriptions -> `security-engineer`.
 
 Valid global skills:
 
@@ -127,6 +128,7 @@ Valid global skills:
 - `helm-chart-engineer`
 - `terraform-terragrunt-engineer`
 - `github-actions-engineer`
+- `security-engineer`
 
 Use one primary specialist skill. For cross-domain work, choose the highest-risk owner as primary and mention reviewer skills. If switching skills, provide a handoff packet.
 

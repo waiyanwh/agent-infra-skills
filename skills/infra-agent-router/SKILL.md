@@ -1,11 +1,11 @@
 ---
 name: infra-agent-router
-description: Route DevOps, SRE, infrastructure, AWS cloud, Helm, Terraform/Terragrunt, and GitHub Actions requests to exactly one primary specialist skill, with optional reviewer skills and handoff packets for cross-domain work.
+description: Route DevOps, SRE, infrastructure, AWS cloud, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests to exactly one primary specialist skill, with optional reviewer skills and handoff packets for cross-domain work.
 ---
 
 # Infra Agent Router
 
-Use this skill when a request involves infrastructure, DevOps, SRE, AWS cloud, Kubernetes runtime behavior, Helm charts, Terraform/OpenTofu/Terragrunt, or GitHub Actions and the best specialist is not already explicit.
+Use this skill when a request involves infrastructure, DevOps, SRE, AWS cloud, Kubernetes runtime behavior, Helm charts, Terraform/OpenTofu/Terragrunt, GitHub Actions, or authorized security engineering and the best specialist is not already explicit.
 
 ## Operating Rules
 
@@ -38,6 +38,7 @@ Use this skill when a request involves infrastructure, DevOps, SRE, AWS cloud, K
 - Helm templates, charts, `values.yaml`, `Chart.yaml`, `_helpers.tpl`, chart dependencies, `helm lint`, `helm template`, Helm releases -> `helm-chart-engineer`.
 - Terraform, OpenTofu, Terragrunt, providers, modules, state, backends, workspaces, imports, moved blocks, plans, drift -> `terraform-terragrunt-engineer`.
 - GitHub Actions workflows, runners, matrices, caches, artifacts, OIDC, permissions, environments, reusable workflows, composite actions -> `github-actions-engineer`.
+- Authorized bug bounty or open-source vulnerability triage, root cause analysis, deterministic validation, remediation patches, adversarial review, reports, and security PR descriptions -> `security-engineer`.
 
 ## Cross-Domain Selection
 
