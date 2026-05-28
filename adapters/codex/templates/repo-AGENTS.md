@@ -16,6 +16,8 @@ Keep this file repo-specific. Do not paste global skill prompts here.
 ## Paths
 
 - Terraform paths: `<paths or none>`
+- Docker paths: `<Dockerfile, compose files, image build notes or none>`
+- Kubernetes paths: `<manifest, kustomize, namespace, cluster notes or none>`
 - Helm chart paths: `<paths or none>`
 - GitHub Actions notes: `<workflow paths, reusable workflows, runner notes>`
 - AWS notes: `<accounts/profiles/regions/resources or none; avoid hard-coded sensitive IDs unless already present and relevant>`
@@ -30,6 +32,24 @@ Keep this file repo-specific. Do not paste global skill prompts here.
 Do not commit secrets, kubeconfigs, private keys, tokens, account IDs, or long-lived credentials.
 
 ## Skill Examples
+
+Use Docker skill directly:
+
+```text
+Use skill: docker-engineer
+
+Task:
+Review this Dockerfile for build, security, and runtime issues.
+```
+
+Use Kubernetes skill directly:
+
+```text
+Use skill: kubernetes-engineer
+
+Task:
+Debug why this Deployment is stuck in CrashLoopBackOff.
+```
 
 Use AWS skill directly:
 

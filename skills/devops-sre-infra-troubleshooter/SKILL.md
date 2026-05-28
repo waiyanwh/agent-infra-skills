@@ -1,11 +1,13 @@
 ---
 name: devops-sre-infra-troubleshooter
-description: Troubleshoot DevOps, SRE, infrastructure, Kubernetes runtime, Linux, networking, DNS, TLS, ingress, cloud symptoms, observability, incidents, and rollback planning with safe read-first workflows.
+description: Troubleshoot DevOps, SRE, infrastructure, Linux, networking, DNS, TLS, cloud symptoms, observability, incidents, and rollback planning with safe read-first workflows. Use for broad incidents and multi-system runtime failures; use kubernetes-engineer for Kubernetes-specific manifests, kubectl, workloads, services, ingress, and cluster debugging.
 ---
 
 # DevOps SRE Infra Troubleshooter
 
-Use this skill for incidents, runtime failures, Kubernetes debugging, Linux host issues, networking, DNS/TLS/ingress, cloud infrastructure symptoms, observability, and rollback planning.
+Use this skill for incidents, runtime failures, Linux host issues, networking, DNS/TLS, cloud infrastructure symptoms, observability, and rollback planning.
+
+Use `kubernetes-engineer` for Kubernetes-specific manifests, kubectl workflows, workloads, services, ingress, RBAC, storage, scheduling, and cluster debugging.
 
 ## Shared Safety Rules
 

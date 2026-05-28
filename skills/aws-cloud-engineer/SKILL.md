@@ -228,7 +228,7 @@ Check:
 - NACLs
 - pod events and logs
 
-Use devops-sre-infra-troubleshooter as reviewer for Kubernetes runtime details when needed.
+Use `kubernetes-engineer` as reviewer for Kubernetes workload and kubectl runtime details when needed.
 
 ## ECS checklist
 
@@ -373,7 +373,7 @@ Review this Terraform plan for AWS IAM and VPC risks.
 ```
 
 ```text
-Use primary skill: devops-sre-infra-troubleshooter
+Use primary skill: kubernetes-engineer
 Use reviewer skill: aws-cloud-engineer
 
 Kubernetes ingress stopped working on EKS after Helm upgrade.

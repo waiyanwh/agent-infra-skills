@@ -9,13 +9,13 @@ usage() {
 Usage:
   doctor.sh [--global]
   doctor.sh --local [project-dir]
-  doctor.sh --codex-home <path>
+  doctor.sh --opencode-home <path>
 
 Options:
-  --global             Check CODEX_HOME or ~/.codex. This is the default.
-  --local [project]   Check <project>/.codex. Defaults to the current directory.
-  --codex-home <path> Check an explicit Codex home path.
-  -h, --help          Show this help.
+  --global                Check OPENCODE_HOME or ~/.config/opencode. This is the default.
+  --local [project]      Check <project>/.opencode. Defaults to the current directory.
+  --opencode-home <path> Check an explicit opencode config path.
+  -h, --help             Show this help.
 USAGE
 }
 
@@ -36,13 +36,13 @@ while [ "$#" -gt 0 ]; do
         shift
       fi
       ;;
-    --codex-home)
+    --opencode-home)
       if [ "${2:-}" = "" ]; then
-        echo "ERROR: --codex-home requires a path" >&2
+        echo "ERROR: --opencode-home requires a path" >&2
         exit 1
       fi
       INSTALL_SCOPE="explicit"
-      CODEX_HOME="$2"
+      OPENCODE_HOME="$2"
       PROJECT_DIR=""
       shift 2
       ;;
@@ -60,29 +60,21 @@ done
 
 if [ "$INSTALL_SCOPE" = "local" ]; then
   PROJECT_DIR="$(cd "$PROJECT_DIR" && pwd)"
-  CODEX_HOME="$PROJECT_DIR/.codex"
+  OPENCODE_HOME="$PROJECT_DIR/.opencode"
 else
-  CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
+  OPENCODE_HOME="${OPENCODE_HOME:-$HOME/.config/opencode}"
 fi
 
+DEST_AGENTS="$OPENCODE_HOME/agents"
 status=0
 
 echo "Scope: $INSTALL_SCOPE"
 if [ "$INSTALL_SCOPE" = "local" ]; then
   echo "Project: $PROJECT_DIR"
 fi
-echo "CODEX_HOME: $CODEX_HOME"
+echo "OPENCODE_HOME: $OPENCODE_HOME"
 echo
-
-if [ -f "$CODEX_HOME/AGENTS.md" ]; then
-  echo "OK: $CODEX_HOME/AGENTS.md exists"
-else
-  echo "MISSING: $CODEX_HOME/AGENTS.md"
-  status=1
-fi
-
-echo
-echo "Skills:"
+echo "opencode agents:"
 
 for skill in \
   infra-agent-router \
@@ -95,7 +87,7 @@ for skill in \
   github-actions-engineer \
   security-engineer
 do
-  if [ -f "$CODEX_HOME/skills/$skill/SKILL.md" ]; then
+  if [ -f "$DEST_AGENTS/$skill.md" ]; then
     echo "OK: $skill"
   else
     echo "MISSING: $skill"

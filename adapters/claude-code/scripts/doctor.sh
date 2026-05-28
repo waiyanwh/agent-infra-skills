@@ -9,13 +9,13 @@ usage() {
 Usage:
   doctor.sh [--global]
   doctor.sh --local [project-dir]
-  doctor.sh --codex-home <path>
+  doctor.sh --claude-home <path>
 
 Options:
-  --global             Check CODEX_HOME or ~/.codex. This is the default.
-  --local [project]   Check <project>/.codex. Defaults to the current directory.
-  --codex-home <path> Check an explicit Codex home path.
-  -h, --help          Show this help.
+  --global              Check CLAUDE_HOME or ~/.claude. This is the default.
+  --local [project]    Check <project>/.claude. Defaults to the current directory.
+  --claude-home <path> Check an explicit Claude Code home path.
+  -h, --help           Show this help.
 USAGE
 }
 
@@ -36,13 +36,13 @@ while [ "$#" -gt 0 ]; do
         shift
       fi
       ;;
-    --codex-home)
+    --claude-home)
       if [ "${2:-}" = "" ]; then
-        echo "ERROR: --codex-home requires a path" >&2
+        echo "ERROR: --claude-home requires a path" >&2
         exit 1
       fi
       INSTALL_SCOPE="explicit"
-      CODEX_HOME="$2"
+      CLAUDE_HOME="$2"
       PROJECT_DIR=""
       shift 2
       ;;
@@ -60,29 +60,21 @@ done
 
 if [ "$INSTALL_SCOPE" = "local" ]; then
   PROJECT_DIR="$(cd "$PROJECT_DIR" && pwd)"
-  CODEX_HOME="$PROJECT_DIR/.codex"
+  CLAUDE_HOME="$PROJECT_DIR/.claude"
 else
-  CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
+  CLAUDE_HOME="${CLAUDE_HOME:-$HOME/.claude}"
 fi
 
+DEST_AGENTS="$CLAUDE_HOME/agents"
 status=0
 
 echo "Scope: $INSTALL_SCOPE"
 if [ "$INSTALL_SCOPE" = "local" ]; then
   echo "Project: $PROJECT_DIR"
 fi
-echo "CODEX_HOME: $CODEX_HOME"
+echo "CLAUDE_HOME: $CLAUDE_HOME"
 echo
-
-if [ -f "$CODEX_HOME/AGENTS.md" ]; then
-  echo "OK: $CODEX_HOME/AGENTS.md exists"
-else
-  echo "MISSING: $CODEX_HOME/AGENTS.md"
-  status=1
-fi
-
-echo
-echo "Skills:"
+echo "Claude Code agents:"
 
 for skill in \
   infra-agent-router \
@@ -95,7 +87,7 @@ for skill in \
   github-actions-engineer \
   security-engineer
 do
-  if [ -f "$CODEX_HOME/skills/$skill/SKILL.md" ]; then
+  if [ -f "$DEST_AGENTS/$skill.md" ]; then
     echo "OK: $skill"
   else
     echo "MISSING: $skill"

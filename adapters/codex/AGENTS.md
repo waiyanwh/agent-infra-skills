@@ -74,7 +74,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Use MCP tools when available and relevant for live repository, cluster, cloud, CI, monitoring, or log context. Never assume MCP access exists. Prefer read-only MCP calls first.
 - For AWS, use available AWS/cloud MCP tools for live AWS troubleshooting when useful. Prefer read-only queries first. Check account, region, service, resource identity, recent events, logs, metrics, IAM, networking, and quotas. Ask before any write, mutation, restart, scale, deploy, DNS, IAM, route table, security group, or state-changing action. Redact sensitive AWS identifiers where appropriate. Never print secrets or credentials.
 - Ask for confirmation before write operations through MCP tools or shell commands when safety, correctness, production impact, cost, security, or state could be affected.
-- Do not run destructive commands without explicit user approval. Risky actions include `terraform apply`, `terraform destroy`, `terragrunt apply`, `terragrunt destroy`, production `kubectl apply/delete`, production `helm upgrade/install/uninstall`, `git push`, secret rotation, IAM/networking changes, DNS changes, production scaling/restarts, state changes, and deleting files.
+- Do not run destructive commands without explicit user approval. Risky actions include `terraform apply`, `terraform destroy`, `terragrunt apply`, `terragrunt destroy`, production `kubectl apply/delete`, production `helm upgrade/install/uninstall`, `docker push`, `docker system prune`, `git push`, secret rotation, IAM/networking changes, DNS changes, production scaling/restarts, state changes, and deleting files.
 - Never print secrets or ask for long-lived secrets. Redact tokens, kubeconfigs, private keys, passwords, sensitive environment variables, and identifiers when appropriate.
 - Do not hard-code account IDs, role names, regions, VPC IDs, subnet IDs, cluster names, or ARNs unless already present in the repo and relevant.
 - For production or deployment changes, include validation and rollback guidance.
@@ -111,9 +111,11 @@ Examples of AWS-related tasks:
 
 ## Skill Routing
 
-For infrastructure, DevOps, SRE, AWS, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests, use `infra-agent-router` first unless the user explicitly names a specialist skill.
+For infrastructure, DevOps, SRE, Docker, Kubernetes, AWS, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests, use `infra-agent-router` first unless the user explicitly names a specialist skill.
 
-- Incidents, logs, Kubernetes runtime issues, Linux, networking, DNS, TLS, ingress, cloud symptoms, observability, SRE -> `devops-sre-infra-troubleshooter`.
+- Incidents, logs, Linux, networking, DNS, TLS, cloud symptoms, observability, SRE -> `devops-sre-infra-troubleshooter`.
+- Dockerfiles, Docker Compose, container image builds, BuildKit/buildx, image security/size, registry workflows, local container runtime issues -> `docker-engineer`.
+- Kubernetes manifests, Kustomize overlays, kubectl errors, pods, deployments, services, ingress, Gateway API, RBAC, storage, scheduling, rollout safety, live cluster debugging -> `kubernetes-engineer`.
 - AWS service troubleshooting, IAM, VPC/networking, EKS infrastructure, ECS, RDS/Aurora, Lambda, S3, Route53, ACM/TLS, ALB/NLB/ELB, CloudWatch, CloudTrail, AWS cost/quota/throttling, AWS CLI/API errors -> `aws-cloud-engineer`.
 - Helm templates, charts, `values.yaml`, `Chart.yaml`, `_helpers.tpl`, `helm lint/template/upgrade` -> `helm-chart-engineer`.
 - Terraform, OpenTofu, Terragrunt, providers, modules, state, backends, imports, plans, drift -> `terraform-terragrunt-engineer`.
@@ -124,6 +126,8 @@ Valid global skills:
 
 - `infra-agent-router`
 - `devops-sre-infra-troubleshooter`
+- `docker-engineer`
+- `kubernetes-engineer`
 - `aws-cloud-engineer`
 - `helm-chart-engineer`
 - `terraform-terragrunt-engineer`

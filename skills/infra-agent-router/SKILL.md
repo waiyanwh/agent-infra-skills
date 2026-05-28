@@ -1,11 +1,11 @@
 ---
 name: infra-agent-router
-description: Route DevOps, SRE, infrastructure, AWS cloud, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests to exactly one primary specialist skill, with optional reviewer skills and handoff packets for cross-domain work.
+description: Route DevOps, SRE, infrastructure, Docker, Kubernetes, AWS cloud, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests to exactly one primary specialist skill, with optional reviewer skills and handoff packets for cross-domain work.
 ---
 
 # Infra Agent Router
 
-Use this skill when a request involves infrastructure, DevOps, SRE, AWS cloud, Kubernetes runtime behavior, Helm charts, Terraform/OpenTofu/Terragrunt, GitHub Actions, or authorized security engineering and the best specialist is not already explicit.
+Use this skill when a request involves infrastructure, DevOps, SRE, Docker, Kubernetes, AWS cloud, Helm charts, Terraform/OpenTofu/Terragrunt, GitHub Actions, or authorized security engineering and the best specialist is not already explicit.
 
 ## Operating Rules
 
@@ -33,7 +33,9 @@ Use this skill when a request involves infrastructure, DevOps, SRE, AWS cloud, K
 
 ## Routing Matrix
 
-- Incidents, logs, Kubernetes runtime issues, Linux, networking, DNS, TLS, ingress, cloud symptoms, observability, SRE, incident response, rollback planning -> `devops-sre-infra-troubleshooter`.
+- Incidents, logs, Linux, networking, DNS, TLS, cloud symptoms, observability, SRE, incident response, rollback planning -> `devops-sre-infra-troubleshooter`.
+- Dockerfiles, Docker Compose, container image builds, BuildKit/buildx, local container runtime issues, image size/security, registry workflows, and container hardening -> `docker-engineer`.
+- Kubernetes manifests, Kustomize overlays, kubectl errors, pods, deployments, services, ingress, Gateway API, RBAC, storage, scheduling, rollout safety, and live cluster debugging -> `kubernetes-engineer`.
 - AWS service troubleshooting, IAM permission issues, AWS networking, VPCs, subnets, routes, NACLs, security groups, Route53, ACM/TLS on AWS, ALB/NLB/ELB, CloudWatch logs/metrics/alarms, CloudTrail investigation, EKS infrastructure issues, ECS, RDS/Aurora, Lambda, S3 access/policy, SQS/SNS/EventBridge, AWS cost/quota/throttling, AWS CLI/API errors, AWS managed service debugging -> `aws-cloud-engineer`.
 - Helm templates, charts, `values.yaml`, `Chart.yaml`, `_helpers.tpl`, chart dependencies, `helm lint`, `helm template`, Helm releases -> `helm-chart-engineer`.
 - Terraform, OpenTofu, Terragrunt, providers, modules, state, backends, workspaces, imports, moved blocks, plans, drift -> `terraform-terragrunt-engineer`.
@@ -45,15 +47,19 @@ Use this skill when a request involves infrastructure, DevOps, SRE, AWS cloud, K
 Use the domain with the greatest irreversible or production risk as primary:
 
 - Live outage or runtime impact beats source configuration ownership.
-- If the issue is Kubernetes runtime behavior on EKS, choose `devops-sre-infra-troubleshooter` as primary and `aws-cloud-engineer` as reviewer.
-- If the issue is AWS infrastructure behind Kubernetes, such as ALB, target groups, subnets, IAM roles for service accounts, EBS CSI, or AWS Load Balancer Controller, choose `aws-cloud-engineer` as primary and `devops-sre-infra-troubleshooter` as reviewer.
-- If the request is an AWS production incident, choose `aws-cloud-engineer` as primary unless the symptom is mostly Kubernetes runtime behavior.
+- If the issue is Kubernetes workload/runtime behavior, choose `kubernetes-engineer` as primary and use `devops-sre-infra-troubleshooter` as reviewer for broader incident handling when needed.
+- If the issue is Kubernetes runtime behavior on EKS, choose `kubernetes-engineer` as primary and `aws-cloud-engineer` as reviewer.
+- If the issue is AWS infrastructure behind Kubernetes, such as ALB, target groups, subnets, IAM roles for service accounts, EBS CSI, or AWS Load Balancer Controller, choose `aws-cloud-engineer` as primary and `kubernetes-engineer` as reviewer.
+- If the request is an AWS production incident, choose `aws-cloud-engineer` as primary unless the symptom is mostly Kubernetes workload behavior.
+- If the issue is a Docker image build or Dockerfile used by CI, choose `docker-engineer` as primary unless the requested change is mainly workflow triggers, permissions, artifacts, or runner behavior.
 - Terraform state, backend, IAM, networking, DNS, and replacement risk usually beats chart or CI ownership.
 - If Terraform creates or modifies AWS resources, choose `terraform-terragrunt-engineer` as primary and `aws-cloud-engineer` as reviewer.
 - Helm release and Kubernetes manifest risk usually beats CI ownership.
-- If Helm chart changes target EKS with AWS integrations, choose `helm-chart-engineer` as primary and `aws-cloud-engineer` as reviewer.
+- If Helm chart changes target Kubernetes workloads, choose `helm-chart-engineer` as primary and `kubernetes-engineer` as reviewer.
+- If Helm chart changes target EKS with AWS integrations, choose `helm-chart-engineer` as primary and use `aws-cloud-engineer` and `kubernetes-engineer` as reviewers as needed.
 - GitHub Actions is primary when the main change is workflow behavior, permissions, triggers, runners, artifacts, caches, or deployment orchestration.
 - If GitHub Actions deploys to AWS or uses AWS OIDC, choose `github-actions-engineer` as primary and `aws-cloud-engineer` as reviewer unless IAM/Terraform changes are the highest-risk part.
+- If GitHub Actions builds Docker images, choose `github-actions-engineer` as primary for workflow behavior and `docker-engineer` as reviewer for image/build behavior.
 
 ## Examples
 
@@ -82,13 +88,25 @@ Reason:
 Terraform owns IaC plan review. AWS reviewer checks IAM/networking blast radius.
 
 User request:
+“Docker image build fails in GitHub Actions after changing the Dockerfile.”
+
+Use skill:
+`docker-engineer`
+
+Secondary reviewers:
+`github-actions-engineer`
+
+Reason:
+The main failure surface is the Dockerfile/image build. The GitHub Actions reviewer checks workflow and runner behavior if needed.
+
+User request:
 “Pods on EKS cannot reach RDS.”
 
 Use skill:
 `aws-cloud-engineer`
 
 Secondary reviewers:
-`devops-sre-infra-troubleshooter`
+`kubernetes-engineer`
 
 Reason:
 The likely issue is AWS networking, security groups, DNS, IAM, or RDS access. Kubernetes runtime checks may also be needed.
@@ -97,7 +115,7 @@ User request:
 “CrashLoopBackOff on EKS after deploy.”
 
 Use skill:
-`devops-sre-infra-troubleshooter`
+`kubernetes-engineer`
 
 Secondary reviewers:
 `aws-cloud-engineer`

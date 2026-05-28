@@ -73,6 +73,8 @@ DEST_SKILLS="$CODEX_HOME/skills"
 MANAGED_SKILLS=(
   "infra-agent-router"
   "devops-sre-infra-troubleshooter"
+  "docker-engineer"
+  "kubernetes-engineer"
   "aws-cloud-engineer"
   "helm-chart-engineer"
   "terraform-terragrunt-engineer"
