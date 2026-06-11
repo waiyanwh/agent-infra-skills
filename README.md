@@ -9,6 +9,10 @@ Do not commit secrets. Keep tokens, kubeconfigs, private keys, cloud credentials
 ## Layout
 
 ```text
+AGENTS.md
+.agents/
+  skills/
+    <skill-name> -> ../../skills/<skill-name>
 skills/
   infra-agent-router/
     SKILL.md
@@ -67,7 +71,8 @@ The root `skills/` directory is the reusable source of truth. Each adapter shoul
 
 Current adapters:
 
-- `adapters/codex`: installs global `AGENTS.md` and managed skills into `CODEX_HOME`, which defaults to `~/.codex`.
+- `.agents/skills`: repo-local symlink index so Codex can pick up these skills when this repository is opened directly.
+- `adapters/codex`: installs managed skills globally into `CODEX_HOME`, or locally into a target project's `.agents/skills/`.
 - `adapters/claude-code`: generates Claude Code subagents from `skills/*/SKILL.md` into `~/.claude/agents/` or `<project>/.claude/agents/`.
 - `adapters/opencode`: generates opencode subagents from `skills/*/SKILL.md` into `~/.config/opencode/agents/` or `<project>/.opencode/agents/`.
 
@@ -82,6 +87,16 @@ Examples:
 - Other coding agents: import the relevant skill Markdown as role, workflow, and safety instructions.
 
 Keep runtime-specific naming, install paths, and config syntax inside `adapters/<runtime>/`. Keep `skills/` portable.
+
+## Codex Repo-Compatible Usage
+
+This repository is directly consumable by Codex:
+
+- Open Codex from this repository root to use the repo-local symlinked skills in `.agents/skills/`.
+- Use `--local /path/to/project` to install copies into another project's `.agents/skills/`.
+- Use `--global` only when you intentionally want these skills available in every Codex workspace on the machine.
+
+The repo default branch is `master`. When using tools that default to `main`, pass `--ref master`.
 
 ## Codex Global Install
 
@@ -114,17 +129,44 @@ cd ~/agent-infra-skills
 This writes the adapter files to:
 
 ```text
-/path/to/project/.codex/
+/path/to/project/.agents/skills/
 ```
 
-Then launch or run Codex for that project with that local Codex home:
+Then launch or run Codex from that project:
 
 ```bash
 cd /path/to/project
-CODEX_HOME="$PWD/.codex" codex
+codex
 ```
 
-If your Codex launcher or environment already supports project-local `.codex` discovery, use that. Otherwise, set `CODEX_HOME` explicitly as shown above.
+Local installs do not overwrite the target project's `AGENTS.md`. Use `adapters/codex/templates/repo-AGENTS.md` as a starting point if the project does not already have repo-specific guidance.
+
+## Codex Skill-Installer Examples
+
+To install one skill globally with Codex's skill installer, pass the repo, branch, and skill path:
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo waiyanwh/agent-infra-skills \
+  --ref master \
+  --path skills/aws-cloud-engineer
+```
+
+To install into a project-local skill directory with the same helper, use `--dest`:
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo waiyanwh/agent-infra-skills \
+  --ref master \
+  --path skills/aws-cloud-engineer \
+  --dest /path/to/project/.agents/skills
+```
+
+For all managed skills, prefer this repo's adapter script:
+
+```bash
+./adapters/codex/scripts/install.sh --local /path/to/project
+```
 
 ## Codex Windows WSL Setup
 
@@ -145,14 +187,14 @@ cd ~/agent-infra-skills
 ./adapters/codex/scripts/doctor.sh --local ~/work/news-project
 
 cd ~/work/news-project
-CODEX_HOME="$PWD/.codex" codex
+codex
 ```
 
 ## What The Codex Install Does
 
 - Global install copies `adapters/codex/AGENTS.md` to `$CODEX_HOME/AGENTS.md`, defaulting to `~/.codex/AGENTS.md`.
-- Local install copies `adapters/codex/AGENTS.md` to `<project>/.codex/AGENTS.md`.
-- Copies each managed skill directory from `skills/` to the chosen Codex home at `skills/<skill-name>`.
+- Local install does not overwrite project instructions; it installs skills under `<project>/.agents/skills/`.
+- Copies each managed skill directory from `skills/` to the chosen skill target.
 - Replaces only these managed skill directories:
   - `infra-agent-router`
   - `devops-sre-infra-troubleshooter`

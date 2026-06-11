@@ -1,6 +1,8 @@
 # Local Codex/runtime state. Do not commit secrets or machine-specific state.
 .codex/
-.agents/
+.agents/*
+!.agents/skills/
+!.agents/skills/*
 
 # OS/editor noise.
 .DS_Store

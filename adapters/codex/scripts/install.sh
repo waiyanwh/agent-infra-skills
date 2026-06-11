@@ -15,7 +15,7 @@ Usage:
 
 Options:
   --global             Install into CODEX_HOME or ~/.codex. This is the default.
-  --local [project]   Install into <project>/.codex. Defaults to the current directory.
+  --local [project]   Install into <project>/.agents/skills. Defaults to the current directory.
   --codex-home <path> Install into an explicit Codex home path.
   -h, --help          Show this help.
 USAGE
@@ -62,14 +62,14 @@ done
 
 if [ "$INSTALL_SCOPE" = "local" ]; then
   PROJECT_DIR="$(cd "$PROJECT_DIR" && pwd)"
-  CODEX_HOME="$PROJECT_DIR/.codex"
+  DEST_SKILLS="$PROJECT_DIR/.agents/skills"
 else
   CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
+  DEST_SKILLS="$CODEX_HOME/skills"
 fi
 
 SRC_AGENTS="$CODEX_ADAPTER_ROOT/AGENTS.md"
 SRC_SKILLS="$REPO_ROOT/skills"
-DEST_SKILLS="$CODEX_HOME/skills"
 MANAGED_SKILLS=(
   "infra-agent-router"
   "devops-sre-infra-troubleshooter"
@@ -86,8 +86,11 @@ echo "Repo root:   $REPO_ROOT"
 echo "Scope:       $INSTALL_SCOPE"
 if [ "$INSTALL_SCOPE" = "local" ]; then
   echo "Project:     $PROJECT_DIR"
+  echo "Skills dir:  $DEST_SKILLS"
+else
+  echo "CODEX_HOME:  $CODEX_HOME"
+  echo "Skills dir:  $DEST_SKILLS"
 fi
-echo "CODEX_HOME:  $CODEX_HOME"
 echo "Source:      $SRC_SKILLS"
 
 if [ ! -d "$SRC_SKILLS" ]; then
@@ -95,7 +98,6 @@ if [ ! -d "$SRC_SKILLS" ]; then
   exit 1
 fi
 
-mkdir -p "$CODEX_HOME"
 mkdir -p "$DEST_SKILLS"
 
 # Do not commit secrets to this repository or to CODEX_HOME.
@@ -103,13 +105,17 @@ mkdir -p "$DEST_SKILLS"
 # VPC IDs, subnet IDs, ARNs, and private keys out of AGENTS.md, SKILL.md,
 # templates, shell history, and logs unless already present and directly relevant.
 
-# Install global AGENTS.md
-if [ -f "$SRC_AGENTS" ]; then
+# Install global Codex AGENTS.md only for Codex-home installs.
+if [ "$INSTALL_SCOPE" != "local" ] && [ -f "$SRC_AGENTS" ]; then
+  mkdir -p "$CODEX_HOME"
   cp "$SRC_AGENTS" "$CODEX_HOME/AGENTS.md"
   echo "Installed: $CODEX_HOME/AGENTS.md"
-else
+elif [ "$INSTALL_SCOPE" != "local" ]; then
   echo "ERROR: AGENTS.md not found: $SRC_AGENTS" >&2
   exit 1
+else
+  echo "Skipped AGENTS.md: local installs do not overwrite project instructions."
+  echo "Optional template: $CODEX_ADAPTER_ROOT/templates/repo-AGENTS.md"
 fi
 
 # Install skills.

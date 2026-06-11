@@ -13,7 +13,7 @@ Usage:
 
 Options:
   --global             Check CODEX_HOME or ~/.codex. This is the default.
-  --local [project]   Check <project>/.codex. Defaults to the current directory.
+  --local [project]   Check <project>/.agents/skills. Defaults to the current directory.
   --codex-home <path> Check an explicit Codex home path.
   -h, --help          Show this help.
 USAGE
@@ -60,9 +60,10 @@ done
 
 if [ "$INSTALL_SCOPE" = "local" ]; then
   PROJECT_DIR="$(cd "$PROJECT_DIR" && pwd)"
-  CODEX_HOME="$PROJECT_DIR/.codex"
+  SKILLS_ROOT="$PROJECT_DIR/.agents/skills"
 else
   CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
+  SKILLS_ROOT="$CODEX_HOME/skills"
 fi
 
 status=0
@@ -70,15 +71,22 @@ status=0
 echo "Scope: $INSTALL_SCOPE"
 if [ "$INSTALL_SCOPE" = "local" ]; then
   echo "Project: $PROJECT_DIR"
+  echo "Skills dir: $SKILLS_ROOT"
+else
+  echo "CODEX_HOME: $CODEX_HOME"
+  echo "Skills dir: $SKILLS_ROOT"
 fi
-echo "CODEX_HOME: $CODEX_HOME"
 echo
 
-if [ -f "$CODEX_HOME/AGENTS.md" ]; then
+if [ "$INSTALL_SCOPE" != "local" ] && [ -f "$CODEX_HOME/AGENTS.md" ]; then
   echo "OK: $CODEX_HOME/AGENTS.md exists"
-else
+elif [ "$INSTALL_SCOPE" != "local" ]; then
   echo "MISSING: $CODEX_HOME/AGENTS.md"
   status=1
+elif [ -f "$PROJECT_DIR/AGENTS.md" ]; then
+  echo "OK: $PROJECT_DIR/AGENTS.md exists"
+else
+  echo "INFO: $PROJECT_DIR/AGENTS.md not found; skills can still load, but repo guidance is recommended."
 fi
 
 echo
@@ -95,7 +103,7 @@ for skill in \
   github-actions-engineer \
   security-engineer
 do
-  if [ -f "$CODEX_HOME/skills/$skill/SKILL.md" ]; then
+  if [ -f "$SKILLS_ROOT/$skill/SKILL.md" ]; then
     echo "OK: $skill"
   else
     echo "MISSING: $skill"
