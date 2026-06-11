@@ -111,11 +111,15 @@ Examples of AWS-related tasks:
 
 ## Skill Routing
 
-For infrastructure, DevOps, SRE, Docker, Kubernetes, AWS, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests, use `infra-agent-router` first unless the user explicitly names a specialist skill.
+For infrastructure, DevOps, SRE, Docker, Kubernetes, Argo CD/GitOps, observability, Cloudflare edge, database reliability, AWS, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests, use `infra-agent-router` first unless the user explicitly names a specialist skill.
 
-- Incidents, logs, Linux, networking, DNS, TLS, cloud symptoms, observability, SRE -> `devops-sre-infra-troubleshooter`.
+- Incidents, Linux, networking, DNS, TLS, cloud symptoms, SRE -> `devops-sre-infra-troubleshooter`.
 - Dockerfiles, Docker Compose, container image builds, BuildKit/buildx, image security/size, registry workflows, local container runtime issues -> `docker-engineer`.
 - Kubernetes manifests, Kustomize overlays, kubectl errors, pods, deployments, services, ingress, Gateway API, RBAC, storage, scheduling, rollout safety, live cluster debugging -> `kubernetes-engineer`.
+- Argo CD applications, GitOps repos, sync health, app-of-apps, ApplicationSets, Argo Rollouts integration, targetRevision/tag flow, repo credentials, and generated app values -> `argocd-gitops-engineer`.
+- Observability, logs, metrics, traces, dashboards, monitors, SLOs, Datadog, CloudWatch, Prometheus, Grafana, OpenTelemetry, alert tuning, and telemetry gaps -> `observability-engineer`.
+- Cloudflare DNS, WAF, rate limits, custom rules, API Shield, mTLS, SSL/TLS, cache, Workers, redirects, bot controls, and edge 4xx/5xx/429 debugging -> `cloudflare-edge-engineer`.
+- Database reliability, PostgreSQL, MySQL, RDS/Aurora, MongoDB, Redis, backups, migrations, locks, replication lag, slow queries, connection pressure, and restore planning -> `database-reliability-engineer`.
 - AWS service troubleshooting, IAM, VPC/networking, EKS infrastructure, ECS, RDS/Aurora, Lambda, S3, Route53, ACM/TLS, ALB/NLB/ELB, CloudWatch, CloudTrail, AWS cost/quota/throttling, AWS CLI/API errors -> `aws-cloud-engineer`.
 - Helm templates, charts, `values.yaml`, `Chart.yaml`, `_helpers.tpl`, `helm lint/template/upgrade` -> `helm-chart-engineer`.
 - Terraform, OpenTofu, Terragrunt, providers, modules, state, backends, imports, plans, drift -> `terraform-terragrunt-engineer`.
@@ -128,6 +132,10 @@ Valid global skills:
 - `devops-sre-infra-troubleshooter`
 - `docker-engineer`
 - `kubernetes-engineer`
+- `argocd-gitops-engineer`
+- `observability-engineer`
+- `cloudflare-edge-engineer`
+- `database-reliability-engineer`
 - `aws-cloud-engineer`
 - `helm-chart-engineer`
 - `terraform-terragrunt-engineer`

@@ -18,9 +18,13 @@ Keep this file repo-specific. Do not paste global skill prompts here.
 - Terraform paths: `<paths or none>`
 - Docker paths: `<Dockerfile, compose files, image build notes or none>`
 - Kubernetes paths: `<manifest, kustomize, namespace, cluster notes or none>`
+- Argo CD/GitOps paths: `<Application, ApplicationSet, app-of-apps, rollout, image/tag flow notes or none>`
 - Helm chart paths: `<paths or none>`
 - GitHub Actions notes: `<workflow paths, reusable workflows, runner notes>`
 - AWS notes: `<accounts/profiles/regions/resources or none; avoid hard-coded sensitive IDs unless already present and relevant>`
+- Cloudflare notes: `<zones, hostnames, WAF/rate-limit/API Shield/Terraform paths or none>`
+- Observability notes: `<dashboard, monitor, log, trace, metric, SLO, or runbook paths or none>`
+- Database notes: `<engine, migration paths, backup/restore notes, data-safety constraints or none>`
 
 ## Production Safety Notes
 
@@ -49,6 +53,42 @@ Use skill: kubernetes-engineer
 
 Task:
 Debug why this Deployment is stuck in CrashLoopBackOff.
+```
+
+Use Argo CD/GitOps skill directly:
+
+```text
+Use skill: argocd-gitops-engineer
+
+Task:
+Debug why this Argo CD application is OutOfSync after the tag workflow ran.
+```
+
+Use observability skill directly:
+
+```text
+Use skill: observability-engineer
+
+Task:
+Review why this Datadog alert did not fire during the incident window.
+```
+
+Use Cloudflare skill directly:
+
+```text
+Use skill: cloudflare-edge-engineer
+
+Task:
+Debug why Cloudflare returns 429 for staging API requests.
+```
+
+Use database reliability skill directly:
+
+```text
+Use skill: database-reliability-engineer
+
+Task:
+Review this PostgreSQL migration for lock and rollback risk.
 ```
 
 Use AWS skill directly:

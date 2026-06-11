@@ -1,6 +1,6 @@
 # Agent Infra and Security Skills
 
-Reusable infrastructure, containers, Kubernetes, cloud, SRE, delivery, and authorized security-engineering skills for AI coding agents.
+Reusable infrastructure, containers, Kubernetes, GitOps, observability, edge, database, cloud, SRE, delivery, and authorized security-engineering skills for AI coding agents.
 
 The skill content in `skills/` is intentionally agent-agnostic Markdown. Adapter-specific files live under `adapters/`; this repo includes adapters for Codex, Claude Code, and opencode.
 
@@ -21,6 +21,14 @@ skills/
   docker-engineer/
     SKILL.md
   kubernetes-engineer/
+    SKILL.md
+  argocd-gitops-engineer/
+    SKILL.md
+  observability-engineer/
+    SKILL.md
+  cloudflare-edge-engineer/
+    SKILL.md
+  database-reliability-engineer/
     SKILL.md
   aws-cloud-engineer/
     SKILL.md
@@ -59,6 +67,10 @@ adapters/
 - `devops-sre-infra-troubleshooter`
 - `docker-engineer`
 - `kubernetes-engineer`
+- `argocd-gitops-engineer`
+- `observability-engineer`
+- `cloudflare-edge-engineer`
+- `database-reliability-engineer`
 - `aws-cloud-engineer`
 - `helm-chart-engineer`
 - `terraform-terragrunt-engineer`
@@ -200,6 +212,10 @@ codex
   - `devops-sre-infra-troubleshooter`
   - `docker-engineer`
   - `kubernetes-engineer`
+  - `argocd-gitops-engineer`
+  - `observability-engineer`
+  - `cloudflare-edge-engineer`
+  - `database-reliability-engineer`
   - `aws-cloud-engineer`
   - `helm-chart-engineer`
   - `terraform-terragrunt-engineer`
@@ -404,6 +420,34 @@ Debug why this Deployment is stuck in CrashLoopBackOff.
 ```
 
 ```text
+Use skill: argocd-gitops-engineer
+
+Task:
+Debug why this Argo CD application is OutOfSync after the tag workflow ran.
+```
+
+```text
+Use skill: observability-engineer
+
+Task:
+Review why this Datadog alert did not fire during the incident window.
+```
+
+```text
+Use skill: cloudflare-edge-engineer
+
+Task:
+Debug why Cloudflare returns 429 for staging API requests.
+```
+
+```text
+Use skill: database-reliability-engineer
+
+Task:
+Review this PostgreSQL migration for lock and rollback risk.
+```
+
+```text
 Use skill: aws-cloud-engineer
 
 Task:
@@ -429,13 +473,14 @@ Task:
 EKS pods cannot connect to RDS.
 ```
 
-For Codex builds that support `$skill` syntax, use names like `$infra-agent-router`, `$docker-engineer`, `$kubernetes-engineer`, `$aws-cloud-engineer`, and `$helm-chart-engineer`.
+For Codex builds that support `$skill` syntax, use names like `$infra-agent-router`, `$docker-engineer`, `$kubernetes-engineer`, `$argocd-gitops-engineer`, `$observability-engineer`, `$cloudflare-edge-engineer`, `$database-reliability-engineer`, `$aws-cloud-engineer`, and `$helm-chart-engineer`.
 
 For Claude Code/OpenClaude, select generated agents with the runtime's agent selector. With OpenClaude:
 
 ```bash
 openclaude --agent docker-engineer
 openclaude --agent kubernetes-engineer -p "Review this manifest"
+openclaude --agent argocd-gitops-engineer -p "Debug this Argo CD sync failure"
 ```
 
 For opencode, invoke generated subagents with `@` mentions, for example:
@@ -444,6 +489,10 @@ For opencode, invoke generated subagents with `@` mentions, for example:
 @infra-agent-router route this infrastructure issue to the right specialist
 @docker-engineer review this Dockerfile
 @kubernetes-engineer debug this pod failure
+@argocd-gitops-engineer debug this sync failure
+@observability-engineer review this noisy monitor
+@cloudflare-edge-engineer debug this WAF block
+@database-reliability-engineer review this migration risk
 ```
 
 Do not use `opencode run --agent docker-engineer` for these generated opencode agents. They are subagents, and opencode's `--agent` flag is for primary agents.

@@ -2,7 +2,7 @@
 
 ## Repository Role
 
-This repository owns reusable infrastructure, DevOps, cloud, Kubernetes, Docker, delivery, and authorized security-engineering skills for AI coding agents.
+This repository owns reusable infrastructure, DevOps, cloud, Kubernetes, Docker, GitOps, observability, edge, database reliability, delivery, and authorized security-engineering skills for AI coding agents.
 
 The shared skill source of truth is `skills/*/SKILL.md`. Runtime-specific install logic lives under `adapters/`.
 
@@ -18,7 +18,7 @@ The shared skill source of truth is `skills/*/SKILL.md`. Runtime-specific instal
 
 - Keep skill content runtime-agnostic unless the skill is explicitly about one runtime.
 - Keep Codex, Claude Code, and opencode path/config differences inside their adapter directories.
-- When adding or renaming a skill, update the skill directory, router coverage, install scripts, doctor scripts, README, and `.agents/skills` index together.
+- When adding or renaming a skill, update the skill directory, router coverage, install scripts, doctor scripts, README, Codex repo template, and `.agents/skills` index together.
 - Do not commit secrets, kubeconfigs, private keys, long-lived tokens, account IDs, ARNs, or environment-specific sensitive values.
 
 ## Validation

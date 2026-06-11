@@ -81,6 +81,10 @@ for skill in \
   devops-sre-infra-troubleshooter \
   docker-engineer \
   kubernetes-engineer \
+  argocd-gitops-engineer \
+  observability-engineer \
+  cloudflare-edge-engineer \
+  database-reliability-engineer \
   aws-cloud-engineer \
   helm-chart-engineer \
   terraform-terragrunt-engineer \

@@ -1,11 +1,11 @@
 ---
 name: infra-agent-router
-description: Route DevOps, SRE, infrastructure, Docker, Kubernetes, AWS cloud, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests to exactly one primary specialist skill, with optional reviewer skills and handoff packets for cross-domain work.
+description: Route DevOps, SRE, infrastructure, Docker, Kubernetes, Argo CD/GitOps, observability, Cloudflare edge, database reliability, AWS cloud, Helm, Terraform/Terragrunt, GitHub Actions, and authorized security-engineering requests to exactly one primary specialist skill, with optional reviewer skills and handoff packets for cross-domain work.
 ---
 
 # Infra Agent Router
 
-Use this skill when a request involves infrastructure, DevOps, SRE, Docker, Kubernetes, AWS cloud, Helm charts, Terraform/OpenTofu/Terragrunt, GitHub Actions, or authorized security engineering and the best specialist is not already explicit.
+Use this skill when a request involves infrastructure, DevOps, SRE, Docker, Kubernetes, Argo CD/GitOps, observability, Cloudflare edge, database reliability, AWS cloud, Helm charts, Terraform/OpenTofu/Terragrunt, GitHub Actions, or authorized security engineering and the best specialist is not already explicit.
 
 ## Operating Rules
 
@@ -33,9 +33,13 @@ Use this skill when a request involves infrastructure, DevOps, SRE, Docker, Kube
 
 ## Routing Matrix
 
-- Incidents, logs, Linux, networking, DNS, TLS, cloud symptoms, observability, SRE, incident response, rollback planning -> `devops-sre-infra-troubleshooter`.
+- Broad incidents, Linux, networking, DNS, TLS, cloud symptoms, SRE, incident response, and rollback planning -> `devops-sre-infra-troubleshooter`.
 - Dockerfiles, Docker Compose, container image builds, BuildKit/buildx, local container runtime issues, image size/security, registry workflows, and container hardening -> `docker-engineer`.
 - Kubernetes manifests, Kustomize overlays, kubectl errors, pods, deployments, services, ingress, Gateway API, RBAC, storage, scheduling, rollout safety, and live cluster debugging -> `kubernetes-engineer`.
+- Argo CD applications, GitOps repos, sync health, app-of-apps, ApplicationSets, Argo Rollouts integration, targetRevision/tag flow, repo credentials, and generated app values -> `argocd-gitops-engineer`.
+- Observability, logs, metrics, traces, dashboards, monitors, SLOs, Datadog, CloudWatch, Prometheus, Grafana, OpenTelemetry, alert tuning, and telemetry gaps -> `observability-engineer`.
+- Cloudflare DNS, WAF, rate limits, custom rules, API Shield, mTLS, SSL/TLS, cache, Workers, redirects, bot controls, and edge 4xx/5xx/429 debugging -> `cloudflare-edge-engineer`.
+- Database reliability, PostgreSQL, MySQL, RDS/Aurora, MongoDB, Redis, backups, migrations, locks, replication lag, slow queries, connection pressure, and restore planning -> `database-reliability-engineer`.
 - AWS service troubleshooting, IAM permission issues, AWS networking, VPCs, subnets, routes, NACLs, security groups, Route53, ACM/TLS on AWS, ALB/NLB/ELB, CloudWatch logs/metrics/alarms, CloudTrail investigation, EKS infrastructure issues, ECS, RDS/Aurora, Lambda, S3 access/policy, SQS/SNS/EventBridge, AWS cost/quota/throttling, AWS CLI/API errors, AWS managed service debugging -> `aws-cloud-engineer`.
 - Helm templates, charts, `values.yaml`, `Chart.yaml`, `_helpers.tpl`, chart dependencies, `helm lint`, `helm template`, Helm releases -> `helm-chart-engineer`.
 - Terraform, OpenTofu, Terragrunt, providers, modules, state, backends, workspaces, imports, moved blocks, plans, drift -> `terraform-terragrunt-engineer`.
@@ -48,6 +52,10 @@ Use the domain with the greatest irreversible or production risk as primary:
 
 - Live outage or runtime impact beats source configuration ownership.
 - If the issue is Kubernetes workload/runtime behavior, choose `kubernetes-engineer` as primary and use `devops-sre-infra-troubleshooter` as reviewer for broader incident handling when needed.
+- If the issue is Argo CD sync state, app source wiring, generated app values, target revisions, or Rollouts objects owned through GitOps, choose `argocd-gitops-engineer` as primary and use `kubernetes-engineer` or `helm-chart-engineer` as reviewers as needed.
+- If the issue is observability query behavior, missing telemetry, noisy alerts, dashboards, monitors, SLOs, or trace/log/metric correlation, choose `observability-engineer` as primary and use the runtime owner as reviewer.
+- If the issue is Cloudflare WAF/rate limits/API Shield/mTLS/DNS/proxy behavior, choose `cloudflare-edge-engineer` as primary and use `terraform-terragrunt-engineer` as reviewer when IaC owns the change.
+- If the issue is database runtime behavior, migrations, backups, locks, replication, or query performance, choose `database-reliability-engineer` as primary and use `aws-cloud-engineer` as reviewer for RDS/Aurora infrastructure.
 - If the issue is Kubernetes runtime behavior on EKS, choose `kubernetes-engineer` as primary and `aws-cloud-engineer` as reviewer.
 - If the issue is AWS infrastructure behind Kubernetes, such as ALB, target groups, subnets, IAM roles for service accounts, EBS CSI, or AWS Load Balancer Controller, choose `aws-cloud-engineer` as primary and `kubernetes-engineer` as reviewer.
 - If the request is an AWS production incident, choose `aws-cloud-engineer` as primary unless the symptom is mostly Kubernetes workload behavior.
@@ -62,6 +70,54 @@ Use the domain with the greatest irreversible or production risk as primary:
 - If GitHub Actions builds Docker images, choose `github-actions-engineer` as primary for workflow behavior and `docker-engineer` as reviewer for image/build behavior.
 
 ## Examples
+
+User request:
+“Argo CD app is OutOfSync after the tag workflow ran.”
+
+Use skill:
+`argocd-gitops-engineer`
+
+Secondary reviewers:
+`github-actions-engineer`
+
+Reason:
+The main surface is GitOps source and Argo CD application state. The workflow reviewer checks tag/update automation if needed.
+
+User request:
+“Datadog alert did not fire during the outage.”
+
+Use skill:
+`observability-engineer`
+
+Secondary reviewers:
+`devops-sre-infra-troubleshooter`
+
+Reason:
+The primary surface is monitor/query/signal behavior. SRE reviewer checks incident context and mitigation.
+
+User request:
+“Cloudflare returns 429 for staging API calls.”
+
+Use skill:
+`cloudflare-edge-engineer`
+
+Secondary reviewers:
+`terraform-terragrunt-engineer`
+
+Reason:
+The main surface is Cloudflare edge policy. Terraform reviewer checks IaC-managed rule changes.
+
+User request:
+“Aurora has high connections and slow queries after deploy.”
+
+Use skill:
+`database-reliability-engineer`
+
+Secondary reviewers:
+`aws-cloud-engineer`
+
+Reason:
+The primary surface is database runtime behavior. AWS reviewer checks RDS/Aurora infrastructure.
 
 User request:
 “GitHub Actions OIDC to AWS fails with AccessDenied.”
