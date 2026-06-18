@@ -109,6 +109,10 @@ for skill in \
 do
   if [ -f "$SKILLS_ROOT/$skill/SKILL.md" ]; then
     echo "OK: $skill"
+    if [ -d "$SKILLS_ROOT/$skill/references" ]; then
+      ref_count=$(find "$SKILLS_ROOT/$skill/references" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
+      echo "  references: $ref_count file(s)"
+    fi
   else
     echo "MISSING: $skill"
     status=1

@@ -32,6 +32,9 @@ skills/
     SKILL.md
   aws-cloud-engineer/
     SKILL.md
+    references/
+      checklists.md
+      cli-commands.md
   helm-chart-engineer/
     SKILL.md
   terraform-terragrunt-engineer/
@@ -40,6 +43,8 @@ skills/
     SKILL.md
   security-engineer/
     SKILL.md
+    references/
+      methodology.md
 adapters/
   codex/
     AGENTS.md
@@ -60,6 +65,12 @@ adapters/
       update.sh
       doctor.sh
 ```
+
+### Skill references
+
+Some skills have a `references/` subdirectory containing detailed content that is loaded on demand rather than always injected into context. This reduces token usage for Codex and Cursor, where the agent reads SKILL.md first and can then selectively read reference files.
+
+For Claude Code and opencode, the adapter install scripts automatically inline reference content into the generated agent files since those runtimes use single flat Markdown agents.
 
 ## Skills
 
